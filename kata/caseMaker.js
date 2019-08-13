@@ -1,18 +1,48 @@
+function removeFromArray(arr, item){
+  var index = arr.indexOf(item);
+  if (index > -1){
+    arr.splice(index, 1);
+  }
+  return arr;
+}
+function getPriority(priorities, input){
+  var addValue = [];
+  for (var i = 0;i < input.length; i++){
+    priorities.forEach(element => element.name == input[i]? addValue.push(element) : void 0);
+  }
+  if (addValue.length > 0){
+  addValue.sort((a,b) => (a.value - b.value));
+  return addValue[0].name;}
+  else return '';
+}
 const makeCase = function (input, cases) {
   // Put your solution here
-  var priorityIndex='';
-  var priority = [{'camel': 1}, 
-  {'pascal': 2},
-  {'snake' :3},
-  {'kebab': 4},
-  {'title':5}];
-  if (cases.length > 1){
-  cases.forEach(element =>  {return priority[priorityIndex] > priority[element] && priority.keys().includes(element) ? priorityIndex = element : void 0   
-  });
+  var caseArray=[];
+   caseArray.push(cases);
+ 
+  console.log(caseArray);
+  var priorityFirst = [{name:'camel', value: 1}, 
+  {name : 'pascal', value : 2},
+  {name : 'snake', value : 3},
+  {name : 'kebab', value : 4},
+  {name : 'title', value : 5}];
+
+  var prioritySecond = [{name:'vowels', value: 1}, 
+  {name : 'consonant', value : 2}];
+
+  var priorityThird = [{name:'upper', value: 1}, 
+  {name : 'lower', value : 2}];
+
+
+
+  input = switchFunction(input,getPriority(priorityThird, caseArray));
+  input = switchFunction(input,getPriority(prioritySecond, caseArray));
+  input = switchFunction(input,getPriority(priorityFirst, caseArray));
+  return input;
 }
-switchFunction(priorityIndex);
-}
-function switchFunction(caseEle){
+
+function switchFunction(input,caseEle){
+
   switch (caseEle) {
     case "camel":
       return input.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
@@ -52,6 +82,8 @@ function switchFunction(caseEle){
     case "lower":
       return input.toLowerCase();
       break;
+    default:
+      return input;
 
 
   }
